@@ -1,10 +1,8 @@
 import os
 import random as r
 import sqlite3 as sql
-import telegram
 from telegram.ext import Updater, CommandHandler, CallbackQueryHandler, MessageHandler, Filters
 from telegram import InlineKeyboardMarkup, InlineKeyboardButton, ReplyKeyboardMarkup, ParseMode
-import config
 
 from dotenv import load_dotenv
 load_dotenv()
