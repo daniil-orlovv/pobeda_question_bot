@@ -33,7 +33,7 @@ def back(update, context):
     """Вернуться назад."""
     chat = update.effective_chat
     button = ReplyKeyboardMarkup(
-        [['Получить вопрос', 'Вопросы по разделам']],
+        [['Получить любой вопрос', 'Вопросы по разделам']],
         resize_keyboard=True
     )
     context.bot.send_message(
