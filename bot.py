@@ -28,7 +28,7 @@ def start(update, context):
 
 def ask_question(update, context):
     """Отправляем вопрос пользователю."""
-    number = r.randint(20, 35)
+    number = r.randint(0, 362)
     cur.execute(f"SELECT question, answer FROM all_questions WHERE number = {number}")
     question, answer = cur.fetchone()
     chat = update.effective_chat
