@@ -33,7 +33,8 @@ def back(update, context):
     """Вернуться назад."""
     chat = update.effective_chat
     button = ReplyKeyboardMarkup(
-        [['Получить любой вопрос', 'Вопросы по разделам']],
+        [['Получить любой вопрос', 'Вопросы по разделам'],
+         ['Вопрос из ЧЗВ']],
         resize_keyboard=True
     )
     context.bot.send_message(
@@ -48,6 +49,27 @@ def ask_all_question(update, context):
     number = r.randint(0, 362)
     cur.execute(
         f"SELECT question, answer FROM all_questions WHERE number = {number}")
+    question, answer = cur.fetchone()
+    chat = update.effective_chat
+    button_answer = InlineKeyboardButton(
+        text="Получить ответ",
+        callback_data='button_anwser'
+    )
+    keyboard = InlineKeyboardMarkup([[button_answer]])
+    context.bot.send_message(
+        chat_id=chat.id,
+        text=question,
+        reply_markup=keyboard
+    )
+    context.chat_data['answer_key'] = answer
+    context.chat_data['question_key'] = question
+
+
+def faq(update, context):
+    """Отправляем вопрос ЧЗВ пользователю."""
+    number = r.randint(0, 16)
+    cur.execute(
+        f"SELECT question, answer FROM FAQ WHERE number = {number}")
     question, answer = cur.fetchone()
     chat = update.effective_chat
     button_answer = InlineKeyboardButton(
@@ -230,6 +252,10 @@ updater.dispatcher.add_handler(MessageHandler(Filters.text(
 updater.dispatcher.add_handler(MessageHandler(Filters.text(
     ['Вопросы по разделам']),
     other_questions)
+)
+updater.dispatcher.add_handler(MessageHandler(Filters.text(
+    ['Вопрос из ЧЗВ']),
+    faq)
 )
 updater.dispatcher.add_handler(MessageHandler(Filters.text(
     ['Стандартные операционные процедуры']),
