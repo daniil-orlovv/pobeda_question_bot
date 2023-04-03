@@ -19,7 +19,8 @@ def start(update, context):
     """Приветствуем пользователя."""
     chat = update.effective_chat
     button = ReplyKeyboardMarkup(
-        [['Получить любой вопрос', 'Вопросы по разделам']],
+        [['Получить любой вопрос', 'Вопросы по разделам'],
+         ['Вопрос из ЧЗВ']],
         resize_keyboard=True
     )
     context.bot.send_message(
@@ -69,7 +70,7 @@ def faq(update, context):
     """Отправляем вопрос ЧЗВ пользователю."""
     number = r.randint(0, 16)
     cur.execute(
-        f"SELECT question, answer FROM FAQ WHERE number = {number}")
+        f"SELECT question, answer FROM faq WHERE number = {number}")
     question, answer = cur.fetchone()
     chat = update.effective_chat
     button_answer = InlineKeyboardButton(
